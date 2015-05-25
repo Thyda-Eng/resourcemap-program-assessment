@@ -293,9 +293,6 @@ module SearchBase
     def parseExpr
       expr = parsePrimaryExpr
       t = peek
-      if is_code(t)
-        t = t.downcase
-      end
       while t == "and" || t == "or" do
         $position += 1
         nextExpr = parsePrimaryExpr

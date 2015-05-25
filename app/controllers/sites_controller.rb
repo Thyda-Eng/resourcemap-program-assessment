@@ -81,7 +81,8 @@ class SitesController < ApplicationController
     zoom = params[:z].to_i
     search = MapSearch.new params[:collection_ids], user: current_user
 
-    search.set_formula params[:formula] if params[:formula].present?
+    formula = params[:formula].downcase if params[:formula].present?
+    search.set_formula formula
     search.zoom = zoom
     search.bounds = params if zoom >= 2
     search.exclude_id params[:exclude_id].to_i if params[:exclude_id].present?

@@ -41,8 +41,10 @@ onQueries ->
     tokenize: =>
       results = []
       tokenRegExp = /\s*([A-Za-z]+|[0-9]+|\S)\s*/g
+      formula = @formula()
+      formula = formula.toLowerCase()
       m = undefined
-      while (m = tokenRegExp.exec(@formula())) != null
+      while (m = tokenRegExp.exec(formula)) != null
         results.push m[1]
       results
 
@@ -83,9 +85,7 @@ onQueries ->
       isExpr = ->
         expr = isPrimaryExpr()
         t = peek()
-        if t != undefined && t.match(/^[A-Za-z]+$/) != null
-          t = t.toUpperCase()
-        while t == "AND" || t == "OR"
+        while t == "and" || t == "or"
           position++
           nextExpr = isPrimaryExpr()
           if !expr.status || !nextExpr.status
