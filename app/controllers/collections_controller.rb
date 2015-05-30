@@ -193,7 +193,9 @@ class CollectionsController < ApplicationController
   def search
     search = new_search
 
-    search.set_formula params[:formula] if params[:formula].present?
+    formula = params[:formula].downcase if params[:formula].present?
+
+    search.set_formula formula
     search.after params[:updated_since] if params[:updated_since]
     search.full_text_search params[:search]
     search.offset params[:offset]
