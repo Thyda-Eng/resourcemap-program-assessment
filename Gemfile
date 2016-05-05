@@ -32,6 +32,7 @@ gem "ruby-recaptcha"
 gem 'i18n-coffee'
 
 gem 'tinymce-rails'
+gem 'instedd_telemetry', git: 'https://github.com/instedd/telemetry_rails.git'
 
 group :test do
   gem 'shoulda-matchers'

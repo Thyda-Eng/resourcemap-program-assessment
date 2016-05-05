@@ -14,6 +14,7 @@
  *= require editor/custom_widget
  *= require editor/custom_aggregator
  *= require_tree .
+ *= require instedd_telemetry
  *= require jquery.fancybox
  *= require_fullscreen
 */

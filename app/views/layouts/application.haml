@@ -6,15 +6,15 @@
         $.status.showError("Unexpected error");
       }
     };
-    
+
     $(document).ajaxError(function(event, xhr, settings, error) {
       $.handleAjaxError(xhr)
     });
 
 - content_for :navigation do
-  = section t('views.nav.home'), root_path(explicit: true), :home  
+  = section t('views.nav.home'), root_path(explicit: true), :home
   = section t('views.nav.collections'), collections_path, :collections
-  
+
   - if user_signed_in?
     - if !current_user.is_guest
       = section t('views.nav.activity'), activities_path, :activities
@@ -25,6 +25,8 @@
   -#= section "Tour", '', :tour
   -#= section "Community", '', :community
   -#= section "Help", '', :help
+
+= telemetry_warning
 - content_for :right_menu do
   %ul.RightMenu
     - if current_user && !current_user.is_guest
@@ -53,6 +55,6 @@
         = show_language_options
 - content_for :footer_links do
   %a{:href => root_path}= t('views.home')
-  %span.VersionRevision{style: "display: none;"} 
-    = ResourceMap::Application.config.revision 
+  %span.VersionRevision{style: "display: none;"}
+    = ResourceMap::Application.config.revision
 = render file: 'layouts/instedd_application'

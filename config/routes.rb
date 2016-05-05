@@ -1,7 +1,9 @@
 ResourceMap::Application.routes.draw do
 
-  devise_for :users, :controllers => {:registrations => "registrations", :sessions => 'sessions' }
 
+
+  devise_for :users, :controllers => {:registrations => "registrations", :sessions => 'sessions' }
+  mount InsteddTelemetry::Engine => '/instedd_telemetry'
   # match 'messaging' => 'messaging#index'
   match 'nuntium' => 'nuntium#receive', :via => :post
   match 'authenticate' => 'nuntium#authenticate', :via => :post
