@@ -1,7 +1,7 @@
 mobile_id: on
 host: localhost:3000
 number_of_attempt_failed: 5
-
+notify_alert: false
 plugins:
   public_collection: on
   snapshot: on
