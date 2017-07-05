@@ -52,6 +52,11 @@
 
     %br/
 
+    /ko if: settings
+    = render 'layers/setting'
+    //ko
+
+
     -# Layers
     /ko foreach: layers
     /ko if: $data == $root.currentLayer()

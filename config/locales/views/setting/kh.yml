@@ -1,0 +1,6 @@
+kh:
+  views:
+    setting:
+      index:
+        education_setting: 'Education Setting'
+        user_category: 'User Category'

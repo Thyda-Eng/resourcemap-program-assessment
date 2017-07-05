@@ -1,0 +1,51 @@
+#setting-main.hidden-until-loaded
+  %h3= t('views.setting.index.education_setting')
+  %hr
+
+  %div.setting
+    %div.category
+      %p Categories
+      %ul{style: 'padding-left: 20px'}
+        /ko foreach: categories
+        %li
+          %span{ko(text: '$data')}
+        //ko
+    %div.timeframe
+      %div.form
+        %p Timeframe
+        /ko with: newTimeframe
+        %input.w30{ko(value: :label, valueUpdate: 'afterkeydown'), type: 'text'}
+        %input{ko(value: :ord, valueUpdate: 'afterkeydown'), style: 'width: 40px', type: 'text'}
+        %button.grey{ko(enable: :valid, click: '$root.addTimeframe')} Add
+        //ko
+
+      %ul.mclist
+        /ko foreach: timeframes
+        %li
+          %input.arrowinput{ko(visible: :editing, hasfocus: true, value: :ord, event: {keyup: '$root.singleUpdateTimeframe', blur: '$root.updateTimeframe'}), valueUpdate: :afterkeydown, type: :text}
+          %span.arrowgrey{ko(visible: '!editing()', text: :ord, click: :edit)}
+          %input.ux-clist{ko(value: :label, valueUpdate: :afterkeydown, event: {keypress: '$root.singleUpdateTimeframe', blur: '$root.updateTimeframe'}), type: :text}
+          %button.fdelete{ko(click: '$root.removeTimeframe'),title: 'remove', style: 'margin-top: 0px;'}
+        //ko
+
+    %div.standard
+      %div.form
+        %p Standard
+        /ko with: newStandard
+        %input.w30{ko(value: :label, valueUpdate: 'afterkeydown'), type: 'text'}
+        %input{ko(value: :ord, valueUpdate: 'afterkeydown'), style: 'width: 40px', type: 'text'}
+        %button.grey{ko(enable: :valid, click: '$root.addStandard')} Add
+        //ko
+
+      %ul.mclist
+        /ko foreach: standards
+        %li{style: 'border: none;'}
+          -# %div{style: 'height: 30px;'}
+          %input.arrowinput{ko(visible: :editing, hasfocus: true, value: :ord, event: {keyup: '$root.singleUpdateStandard', blur: '$root.updateStandard'}), valueUpdate: :afterkeydown, type: :text}
+          %span.arrowgrey{ko(visible: '!editing()', text: :ord, click: :edit)}
+          %input.ux-clist{ko(value: :label, valueUpdate: :afterkeydown, event: {keydown: '$root.singleUpdateStandard', blur: '$root.updateStandard'}), type: :text}
+          %button.fdelete{ko(click: '$root.removeStandard'),title: 'remove', style: 'margin-top: 0px;'}
+        //ko
+
+  %h3= t('views.setting.index.user_category')
+  %hr

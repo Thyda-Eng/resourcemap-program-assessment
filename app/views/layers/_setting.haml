@@ -1,0 +1,12 @@
+%p Category
+%select{ko(value: :selectedCategory, options: 'settings.categories', optionsText: "function(item) { return item; }")}
+
+%p Timeframe
+%ul{"data-bind" => "foreach: settings.timeframes", style: 'list-style: none; padding-left: 0px'}
+  %li
+    %input{"data-bind" => "value: id, checked: $parent.selectedTimeframes", :type => "checkbox"}
+    %span{ko(text: :label)}
+    %br
+
+%p Standard
+%select{ko(value: :selectedStandard, options: 'settings.standards', optionsText: "'label'", optionsValue: "'id'")}

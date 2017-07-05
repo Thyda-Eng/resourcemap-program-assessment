@@ -1,0 +1,63 @@
+onSetting ->
+  class @MainViewModel
+    constructor: (data)->
+      @categories = data?.categories ? []
+      @timeframes = ko.observableArray $.map(data?.timeframes, (x) -> new Option(x)) ? []
+      @standards = ko.observableArray $.map(data?.standards, (x) -> new Option(x)) ? []
+
+      @newTimeframe = ko.observable(new Option())
+      @newStandard = ko.observable(new Option())
+
+    addTimeframe: (option) =>
+      params = {option: {label: option.label(), ord: option.ord()}}
+      $.post "/timeframes", params,(timeframe) =>
+        option.id = timeframe.id
+        @timeframes.push option
+        @newTimeframe(new Option())
+        $.status.showNotice('Timeframe has been created successfully.', 60*1000)
+
+    removeTimeframe: (option) =>
+      if confirm("Are you sure you want to remove this option ?")
+        $.post "/timeframes/#{option.id}", {_method: 'delete'}, =>
+          console.log 'removeTimeframe'
+          @timeframes.remove option
+          $.status.showNotice("Timeframe '#{option.label()}' successfully deleted", 2000)
+
+    updateTimeframe: (option) =>
+      params = {label: option.label(), ord: option.ord()}
+      $.post "/timeframes/#{option.id}", {option: params, _method: 'put'}, =>
+        option.editing(false)
+        $.status.showNotice("Timeframe '#{option.label()}' successfully updated", 2000)
+
+    singleUpdateTimeframe: (option, event) =>
+      switch event.keyCode
+        when 13 then @updateTimeframe(option)
+        else
+          return true
+
+
+    addStandard: (option) =>
+      params = {option: {label: option.label(), ord: option.ord()}}
+      $.post "/standards", params,(standard)=>
+        option.id = standard.id
+        @standards.push option
+        @newTimeframe(new Option())
+        $.status.showNotice('Standard has been created successfully.', 60*1000)
+
+    removeStandard: (option) =>
+      if confirm("Are you sure you want to remove this option ?")
+        $.post "/standards/#{option.id}", {_method: 'delete'}, =>
+          @standards.remove option
+          $.status.showNotice("Standard '#{option.label()}' successfully deleted", 2000)
+
+    updateStandard: (option) =>
+      params = {label: option.label(), ord: option.ord()}
+      $.post "/standards/#{option.id}", {option: params, _method: 'put'}, =>
+        option.editing(false)
+        $.status.showNotice("Standard '#{option.label()}' successfully updated", 2000)
+
+    singleUpdateStandard: (option, event) =>
+      switch event.keyCode
+        when 13 then @updateStandard(option)
+        else
+          return true

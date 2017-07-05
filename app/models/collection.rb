@@ -29,6 +29,7 @@ class Collection < ActiveRecord::Base
   include Collection::TireConcern
   include Collection::PluginsConcern
   include Collection::ImportLayersSchemaConcern
+  include Collection::SettingConcern
 
   validates_presence_of :name
 
@@ -53,7 +54,11 @@ class Collection < ActiveRecord::Base
   has_many :report_queries, dependent: :destroy
   has_many :report_query_templates, dependent: :destroy
 
+  has_many :collection_timeframes, :dependent => :destroy
+  has_many :timeframes, through: :collection_timeframes
+
   OPERATOR = {">" => "gt", "<" => "lt", ">=" => "gte", "<=" => "lte", "=>" => "gte", "=<" => "lte", "=" => "eq"}
+  CATEGORIES = ['EDUCATION', 'NCDM', 'OTHER', 'NONE']
 
   attr_accessor :time_zone
 

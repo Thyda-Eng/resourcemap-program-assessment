@@ -1,6 +1,13 @@
+#= require module
+#= require layers/setting_view_model
+
 onLayers ->
-  class @MainViewModel
-    constructor: (collectionId, layers, collectionList) ->
+  class @MainViewModel extends Module
+    @include SettingViewModel
+
+    constructor: (collectionId, layers, settings, collectionSetting) ->
+      @constructorSettingViewModel(settings, collectionSetting)
+
       @collectionId = collectionId
       @fields = ko.observableArray()
       @layers = ko.observableArray $.map(layers, (x) => new Layer(x, @))
@@ -14,7 +21,6 @@ onLayers ->
       @newFieldLogic = ko.observable(new FieldLogic)
       @newFieldValidation = ko.observable(new FieldValidation)
       @newAttribute = ko.observable(new Attribute)
-      @collectionList = window.collectionList
       @optionValid = ko.computed =>
         $.trim(@newOption().code()).length > 0 && $.trim(@newOption().label()).length > 0
 
@@ -92,6 +98,7 @@ onLayers ->
         return false
 
       @isShowingCopyForm = ko.observable(false)
+
 
 
     addCustomWidgetedFieldItem: =>

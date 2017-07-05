@@ -13,6 +13,7 @@ en:
       quota: "Quota"
       users: "Users"
       settings: "Settings"
+      setting: "Setting"
       reports: "Reports"
     account:
       settings: "Settings"
@@ -42,5 +43,5 @@ en:
       cancel_my_account: "Cancel my account"
       are_you_sure: "Are you sure?"
     errors:
-      page_doesnt_exist: "The page you are trying to access doesn't exist or you don't have permission for accessing it."  
+      page_doesnt_exist: "The page you are trying to access doesn't exist or you don't have permission for accessing it."
       contact_administrator: "Contact the administrator if you think you should."

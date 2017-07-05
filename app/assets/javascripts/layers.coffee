@@ -17,22 +17,18 @@ onLayers -> if $('#layers-main').length > 0
   #show loading
   $('#loadProgress').show()
 
-
-  $.get "/collections.json", {}, (collections) =>
-    window.collectionList = collections.filter (collection) -> collection.id != parseInt(window.collectionId)
-    createBinding()
-
   $.get "/collections/#{collectionId}/layers/list_layers.json", {}, (layers) =>
     window.layerList = layers
-    createBinding()
+    $.get "/setting.json", {}, (settings) =>
+      $.get "/api/collections/#{collectionId}/settings.json", {}, (collectionSetting) ->
+        createBinding(layers, settings, collectionSetting)
 
-  window.collectionList = null
   window.layerList = null
   window.bindingCreated = false
 
-  createBinding = ->
-    if window.collectionList && window.layerList && !window.bindingCreated
-      window.model = new MainViewModel(window.collectionId, window.layerList)
+  createBinding = (layers, settings, collectionSetting)->
+    if window.layerList && !window.bindingCreated
+      window.model = new MainViewModel(window.collectionId, layers, settings, collectionSetting)
       ko.applyBindings window.model
       window.bindingCreated = true
 

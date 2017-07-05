@@ -23,6 +23,7 @@
         = section t('views.nav.sms'), gateways_path, :gateways
       - if current_user.is_super_user
         = section t('views.nav.quota'), quotas_path, :quotas
+        = section t('views.nav.setting'), setting_path, :setting
 
 - content_for :right_menu do
   %ul.RightMenu

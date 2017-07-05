@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170524080304) do
+ActiveRecord::Schema.define(:version => 20170704090502) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -49,12 +49,19 @@ ActiveRecord::Schema.define(:version => 20170524080304) do
     t.boolean  "national_setup"
   end
 
+  create_table "collection_timeframes", :force => true do |t|
+    t.integer  "collection_id"
+    t.integer  "timeframe_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "collections", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.boolean  "public"
-    t.datetime "created_at",                                                              :null => false
-    t.datetime "updated_at",                                                              :null => false
+    t.datetime "created_at",                                                               :null => false
+    t.datetime "updated_at",                                                               :null => false
     t.decimal  "lat",                   :precision => 10, :scale => 6
     t.decimal  "lng",                   :precision => 10, :scale => 6
     t.decimal  "min_lat",               :precision => 10, :scale => 6
@@ -66,6 +73,8 @@ ActiveRecord::Schema.define(:version => 20170524080304) do
     t.boolean  "is_aggregator",                                        :default => false
     t.text     "print_template"
     t.boolean  "is_published_template",                                :default => true
+    t.string   "category",                                             :default => "NONE"
+    t.integer  "standard_id"
   end
 
   create_table "field_histories", :force => true do |t|
@@ -401,6 +410,13 @@ ActiveRecord::Schema.define(:version => 20170524080304) do
     t.datetime "updated_at",    :null => false
   end
 
+  create_table "standards", :force => true do |t|
+    t.string   "label"
+    t.integer  "ord"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "thresholds", :force => true do |t|
     t.integer  "ord"
     t.string   "color"
@@ -416,6 +432,13 @@ ActiveRecord::Schema.define(:version => 20170524080304) do
     t.text     "phone_notification"
     t.text     "email_notification"
     t.string   "message_notification"
+  end
+
+  create_table "timeframes", :force => true do |t|
+    t.string   "label"
+    t.integer  "ord"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "user_snapshots", :force => true do |t|

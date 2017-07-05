@@ -142,6 +142,13 @@ ResourceMap::Application.routes.draw do
   resources :messages, :only => [:index], :path => 'message'
   resources :activities, :only => [:index], :path => 'activity'
   resources :quotas
+
+  get '/setting', to: 'setting#index', as: 'setting'
+  post '/collections/:id/settings', to: 'collection_settings#create'
+
+  resources :timeframes
+  resources :standards
+
   resources :gateways do
     post 'status', :on => :member
     post 'try'
@@ -161,6 +168,7 @@ ResourceMap::Application.routes.draw do
     get 'sites/:id' => 'sites#show', as: :site
     get 'activity' => 'activities#index', as: :activity
     get 'collections/:collection_id/my_membership' => 'collections#my_membership'
+    get 'collections/:id/settings' => 'collection_settings#index'
     # match 'collections/:id/update_sites_under_collection' => 'collections#update_sites_under_collection', :via => :put
     # put 'collections/:id/update_sites_under_collection' => 'collections#update_sites_under_collection', as: :collections
     resources :tokens, :only => [:index, :destroy]

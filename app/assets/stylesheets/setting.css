@@ -1,0 +1,26 @@
+button.light-blue{
+  background-color: #3C80EE;
+  color: white;
+}
+
+button.light-blue:disabled{
+  background-color: grey;
+  color: white;
+}
+
+span.editable{
+  cursor: pointer;
+  display: inline-block;
+}
+
+div.timeframe{
+  margin-bottom: 30px
+}
+
+div.setting p{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+div.setting ul li{
+  border: none;
+}

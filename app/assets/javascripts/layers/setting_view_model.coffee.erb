@@ -1,0 +1,22 @@
+onLayers ->
+  class @SettingViewModel
+    @constructorSettingViewModel: (settings, collectionSetting)->
+      @settings = settings
+      @collectionSetting = collectionSetting
+
+      @selectedCategory = ko.observable(@collectionSetting?.category ? null)
+      @selectedCategory.subscribe =>
+        @updateSetting()
+
+      @selectedTimeframes = ko.observableArray($.map @collectionSetting?.timeframe_ids, (x) => x.toString())
+      @selectedTimeframes.subscribe =>
+        @updateSetting()
+
+      @selectedStandard = ko.observable(@collectionSetting?.standard_id ? null)
+      @selectedStandard.subscribe =>
+        @updateSetting()
+
+    @updateSetting: ->
+      params = {category: @selectedCategory(), standard_id: @selectedStandard(), timeframe_ids: @selectedTimeframes()}
+      $.post "/collections/#{@collectionId}/settings/", params,() =>
+        $.status.showNotice('Successfully.', 60*1000)
