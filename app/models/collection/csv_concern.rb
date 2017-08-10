@@ -47,21 +47,8 @@ module Collection::CsvConcern
             else
               row << ""
             end
-          elsif field.kind == 'select_one'
-            field.config["options"].each do |option|
-              if source['properties'][field.code] == option["id"]
-                row << option["code"]
-                break
-              end
-            end
-          elsif field.kind == "select_many"
-            field.config["options"].each do |option|
-              if source['properties'][field.code] and source['properties'][field.code].include? option["id"]
-                row << "Yes"
-              else
-                row << "No"
-              end
-            end
+          elsif field.kind == "select_one" || field.kind == "select_many"
+            row << field.value_for_csv(source['properties'][field.code])
           elsif field.kind == "hierarchy"
             hierarchy_fields[field.id.to_s] = field.transform()
             hierarchy_fields[field.id.to_s]["depth"] = field.get_longest_depth()

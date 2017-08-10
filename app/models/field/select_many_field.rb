@@ -83,6 +83,17 @@ class Field::SelectManyField < Field
     return value.any? ? value : value_codes
   end
 
+  def value_for_csv(value)
+    config["options"].each do |option|
+      if value and value.include? option["id"]
+        return "Yes"
+      else
+        return "No"
+      end
+    end
+    return "No"
+  end
+
   def csv_header
     header = []
     config["options"].each do |option|

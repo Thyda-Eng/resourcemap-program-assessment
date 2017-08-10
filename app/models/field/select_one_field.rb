@@ -64,6 +64,16 @@ class Field::SelectOneField < Field
     return value_code
   end
 
+  def value_for_csv(value)
+    is_option_exist = false
+    config["options"].each do |option|
+      if value == option["id"]
+        return option["code"]
+      end
+    end
+    return '' if is_option_exist == false
+  end
+
   private
 
   # TODO: Integrate with decode used in update
