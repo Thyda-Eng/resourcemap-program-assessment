@@ -119,9 +119,6 @@ onCollections ->
             if @selectedSite() && @selectedSite().id() == site.id()
               @unselectSite()
 
-            if site.collection.sitesPermission.canUpdate(site) || site.collection.sitesPermission.canRead(site)
-              site.fetchFields()
-
             @selectSite(site)
             @editingSite(site)
             @currentCollection(site.collection)
@@ -130,6 +127,8 @@ onCollections ->
             @rebindCustomWidgetView()
             @allFieldLogics([])
             for field in @editingSite().fields()
+              field.valid() if field.is_enable_custom_validation
+              @getLocations(site.lat(), site.lng()) if field.kind == 'location'
               if field.field_logics
                 for f in field.field_logics
                   f["disable_field_id"] = field["esCode"]

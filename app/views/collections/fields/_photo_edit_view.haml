@@ -26,7 +26,7 @@
     .clear
     <!-- /ko -->
   - else
-    %input.right.w20{ko(event: {change: "fileSelected", blur: "valid"}, css: {error: :error }, attr: {name: :code, id: :code}), size: '8px', type: 'file', accept: 'image/*'}
+    %input.right.w20{ko(event: {change: "fileSelected"}, css: {error: :error }, attr: {name: :code, id: :code}), size: '8px', type: 'file', accept: 'image/*'}
     <!-- ko if: hasValue() -->
     %div{ko(attr: {id: "'divUpload-' + code"}), style: "position: relative"}
       %img{ko(attr: {id: "'imgUpload-' + code", src: "photoPath + value()"}), width: "100px", style: "float: right; border: 2px solid #BBB;"}

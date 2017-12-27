@@ -31,8 +31,7 @@ onCollections ->
       @originalIsMandatory = data.is_mandatory
       @value = ko.observable()
       @value.subscribe =>
-        if @kind == 'select_many' || @kind == 'hierarchy' ||  (@custom_widgeted && @kind == 'select_one')
-          @valid()
+        @valid()
         @disableDependentSkipLogicField()
         @performCalculation()
 
@@ -146,7 +145,7 @@ onCollections ->
     valid: =>
       @validateMandatory()
       @validateEmailFormat()
-      @validateRange()
+      @validateRangeAndDigitsPrecision()
       @validateCustomValidation()
 
     validateMandatory: =>
@@ -159,7 +158,7 @@ onCollections ->
     validateEmailFormat: =>
       if @kind == 'email' && @value()
         re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if(!re.test(@value()))
+        if(!re.test(@value().trim()))
           @errorMessage('Invalid field format')
         else
           @errorMessage('')
@@ -449,10 +448,11 @@ onCollections ->
 
     validateDigitsPrecision: =>
       if @digitsPrecision and @value() != ""
-        @value(parseInt(@value() * Math.pow(10, parseInt(@digitsPrecision))) / Math.pow(10, parseInt(@digitsPrecision)))
+        value = parseInt(@value() * Math.pow(10, parseInt(@digitsPrecision))) / Math.pow(10, parseInt(@digitsPrecision))
+        if value then @value(value) else @value('')
 
     validateRange: =>
-      if @range
+      if @range and @value()
         if @range.minimum && @range.maximum
           if parseFloat(@value()) >= parseFloat(@range.minimum) && parseFloat(@value()) <= parseFloat(@range.maximum)
             @errorMessage('')
@@ -474,26 +474,27 @@ onCollections ->
             return
 
     validateCustomValidation: =>
-      if @is_enable_custom_validation()
-        $.map(@configCustomValidations(), (f) =>
-          field = window.model.newOrEditSite().findFieldByEsCode(f.field_id[0])
-          compareValue = field.value()
-          if(!compareValue)
-            compareValue = 0
+      if window.model.editingSite()
+        if @is_enable_custom_validation()
+          $.map(@configCustomValidations(), (f) =>
+            field = window.model.editingSite().findFieldByEsCode(f.field_id[0])
+            compareValue = field.value()
+            if(!compareValue)
+              compareValue = 0
 
-          @generateErrorMessage(f, @, compareValue, field.name)
-        )
+            @generateErrorMessage(f, @, compareValue, field.name)
+          )
 
-      if @config().compare_custom_validations
-        $.map(@config().compare_custom_validations, (v) =>
-          field = window.model.newOrEditSite().findFieldByEsCode(v.field_id)
+        if @config().compare_custom_validations
+          $.map(@config().compare_custom_validations, (v) =>
+            field = window.model.editingSite().findFieldByEsCode(v.field_id)
 
-          compareValue = @value()
-          if(!compareValue)
-            compareValue = 0
+            compareValue = @value()
+            if(!compareValue)
+              compareValue = 0
 
-          @generateErrorMessage(v, field, compareValue, @name)
-        )
+            @generateErrorMessage(v, field, compareValue, @name)
+          )
 
     generateErrorMessage: (fieldConfig, validateField, compareValue, fieldName)=>
       compareValue = parseFloat(compareValue)
@@ -524,6 +525,7 @@ onCollections ->
         else
           validateField.errorMessage('')
 
+
     validate_integer_only: (keyCode) =>
       value = $('#'+@kind+'-input-'+@code).val()
       if value == null || value == ""
@@ -540,27 +542,24 @@ onCollections ->
         @preKeyCode = keyCode
         return true
 
-    validate_digit: (keyCode) =>
+    validate_decimal_key: (keyCode) =>
       value = $('#'+@kind+'-input-'+@code).val()
-      #check digit precision
-      valueAfterSplit = value.split '.'
-      if valueAfterSplit.length >= 2
-        decimalValue = valueAfterSplit[1]
-        ele = document.getElementById(@kind+"-input-"+@code)
-        pos = $.caretPosition(ele)
-        if @digitsPrecision
-          if keyCode == 8 || keyCode == 9 || keyCode == 173 || (keyCode >= 37 && keyCode <=40)
-            return true
-          if pos <= value.indexOf('.')
-            return true
-          if decimalValue.length < parseInt(@digitsPrecision)
-            return true
-          if decimalValue.length >= parseInt(@digitsPrecision)
-            return false
+      dotcontains = value.indexOf(".") != -1
+      if (dotcontains)
+        if (keyCode == 190)
+          return false
 
+      if (keyCode == 190)
+        return true
+
+      if (keyCode > 31 && (keyCode < 48 || keyCode > 57))
+        return false
       return true
 
-
+    validate_number_key: (keyCode) =>
+      if keyCode > 31 && (keyCode < 48 || keyCode > 57)
+        return false
+      return true
 
     keyPress: (field, event) =>
       switch event.keyCode
@@ -569,7 +568,9 @@ onCollections ->
         else
           if field.kind == "numeric"
             if field.allowsDecimals()
-              return @validate_digit(event.keyCode)
+              return @validate_decimal_key(event.keyCode)
+            else
+              return @validate_number_key(event.keyCode)
           return true
 
     exit: =>

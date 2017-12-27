@@ -36,7 +36,7 @@ onCollections ->
         write: (value) => @locationTextTemp = value
         owner: @
       @locationTextTemp = @locationText()
-      @valid = ko.computed => @hasName() and @hasInputMendatoryProperties()
+      @valid = ko.computed => @hasName() and @validField()
 
       @highlightedName = ko.computed => window.model.highlightSearch(@name())
       @inEditMode = ko.observable(false)
@@ -68,11 +68,10 @@ onCollections ->
       else
         $("#name").removeClass('error')
 
-    hasInputMendatoryProperties: =>
+    validField: =>
       for field in @fields()
-        if field.writeable == true
-          if field.is_mandatory() and !field.value()
-            return false
+        if field.error() == true
+          return false
       return true
 
     propertyValue: (field) =>
@@ -417,7 +416,6 @@ onCollections ->
         field.bindWithCustomWidgetedField()
 
       for field in @fields()
-        # if field.value()
         field.disableDependentSkipLogicField()
 
       window.model.newOrEditSite().scrollable(false)

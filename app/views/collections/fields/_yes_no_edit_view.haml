@@ -3,7 +3,7 @@
   %button{ko(click: :save)}= t('views.collections.index.ok')
   %button{ko(click: :exit)}= t('views.collections.index.cancel')
 - else
-  - if mobile 
+  - if mobile
     %br
     %br
     %input{ko(checked: 'value'), type: 'checkbox', class: 'right w20'}
@@ -11,4 +11,3 @@
   - else
     %input{ko(checked: 'value', attr: {id: "'yes_no-input-' + code"}, event: {change: :enableScrollFocusView}), type: 'checkbox', class: 'right w20', id: 'yesno'}
   .clear
-
