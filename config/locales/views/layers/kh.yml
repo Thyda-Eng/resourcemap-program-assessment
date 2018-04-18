@@ -1,7 +1,7 @@
 kh:
   javascripts:
     layers:
-      successfully_copied_collection_name: "ស្រទាប់ទិន្នន័យទាំងនេះត្រូវបានចម្លងដោយជោគជ័យនៃទិន្នន័យ '%{name}'"
+      successfully_copied_collection_name: "ស្រទាប់ទិន្នន័យទាំងនេះត្រូវបានចម្លងដោយជោគជ័យនៃទម្រង់ប្រមូលទិន្នន័យ '%{name}'"
       fields:
         cant_save: "មិនអាចរក្សាទុក: %{error}"
         errors:
@@ -29,7 +29,7 @@ kh:
   views:
     layers:
       title: "ស្រទាប់"
-      description: "គ្រប់គ្រងស្រទាប់ និង សំណួរ របស់ទិន្នន័យតបន់នេះ"
+      description: "គ្រប់គ្រងស្រទាប់ និង សំណួរ របស់ទម្រង់ប្រមូលទិន្នន័យតំបន់នេះ"
       name: "ឈ្មោះ"
       saving_layer: "កំពុងរក្សាទុកស្រទាប់, សូមរង់ចាំ..."
       save_layer: "រក្សាទុក ស្រទាប់"
@@ -42,13 +42,13 @@ kh:
       add_layer: "បន្ថែមស្រទាប់"
       add_new_layer: "បន្ថែមស្រទាប់ថ្​​​មី"
       copy_layer: "ចម្លង ស្រទាប់"
-      copy_layers_to_new_collection: "ចម្លង ស្រទាប់ទាំងអស់សំរាប់ទិន្នន័យថ្មី"
+      copy_layers_to_new_collection: "ចម្លង ស្រទាប់ទាំងអស់សំរាប់ទម្រង់ប្រមូលទិន្នន័យថ្មី"
       total_fields: "សំណួរសរុប"
       add_form_field: "បន្ថែមទំរង់សំណួរ"
-      input_new_collection_name: "បញ្ចូលឈ្មោះទិន្នន័យថ្មី"
+      input_new_collection_name: "បញ្ចូលឈ្មោះទម្រង់ប្រមូលទិន្នន័យថ្មី"
       copying: 'កំពុងតែចម្លង...'
       copy: 'ចម្លង'
-      browse_copy_collection: 'ចូលមេីលទិន្នន័យចម្លង'
+      browse_copy_collection: 'ចូលមេីលទម្រង់ប្រមូលទិន្នន័យចម្លង'
       fields:
         title: "សំណួរ"
         text: "អក្សរ"

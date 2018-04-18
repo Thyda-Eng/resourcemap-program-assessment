@@ -72,7 +72,7 @@ en:
         50_percent_account_setup_completeness: "50% Account Setup Completeness"
         create_your_first_collection: "Create Your First Collection (+50%)"
         configure_sms_gateway: "Configure SMS Gateway (+50%)"
-        create_site: "Create Site"
+        create_site: "Add New Data"
         new_site: "New Site"
         name: "Name:"
         location: "Location:"
@@ -267,4 +267,3 @@ en:
           both_code_and_label: "Both code and label"
           apply: "Apply"
           cancel: "Cancel"
-
